@@ -13,9 +13,10 @@ public class SelectionControl : MonoBehaviour {
 		if (Input.GetMouseButtonDown(0)){
 			RaycastHit hit;
 			Ray ray = Camera.main.ScreenPointToRay (Input.mousePosition);
+			var layerMask = 1 << 8;
 
 			// var select = GameObject.FindWithTag("select").transform;
-			if (Physics.Raycast (ray, out hit, 100f)){
+			if (Physics.Raycast (ray, out hit, 100f, layerMask)){
 				// select.tag = "none";
 				// hit.collider.transform.tag = "select";
 
