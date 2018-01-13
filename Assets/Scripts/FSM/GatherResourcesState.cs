@@ -4,6 +4,7 @@ using System.Collections;
 using FSM.Core;
 using Behaviours;
 using Resources;
+using Extensions;
 
 namespace FSM
 {
@@ -33,11 +34,11 @@ namespace FSM
 			}
 
 			var resourceGatherer = gameObject.GetComponent<ResourceGatherer> ();
-			var nearest = FindNearestResorce (gameObject.transform.position);
+			var nearestResource = gameObject.transform.position.FindNearest(GameObject.FindGameObjectsWithTag("Resource"));
 
-			if (nearest != null) {
-				agent.SetDestination (nearest.transform.position); 
-				resourceGatherer.TargetResource = nearest;
+			if (nearestResource != null) {
+				agent.SetDestination (nearestResource.transform.position); 
+				resourceGatherer.TargetResource = nearestResource;
 			} else {
 				machine.ChangeState (IdleState.Instance);
 			}
@@ -78,26 +79,6 @@ namespace FSM
 					}
 				}
 			}
-		}
-
-		private GameObject FindNearestResorce (Vector3 currentPosition)
-		{
-			var possibleTargets = GameObject.FindGameObjectsWithTag ("Resource");
-
-			if (possibleTargets.Length == 0) {
-				return null;
-			}
-
-			float shortestDistance = Vector3.Distance (currentPosition, possibleTargets [0].transform.position);
-			GameObject nearest = possibleTargets [0];
-			foreach (GameObject candidate in possibleTargets) {
-				var dist = Vector3.Distance (currentPosition, candidate.transform.position);
-				if (dist < shortestDistance) {
-					shortestDistance = dist;
-					nearest = candidate;
-				}
-			}
-			return nearest;
 		}
 	}
 }
