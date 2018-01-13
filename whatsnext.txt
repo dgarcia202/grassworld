@@ -1,0 +1,6 @@
+* Merge resource related FSM states
+* resource providers desappear after being exhausted
+* ore resources
+* UI. object selection with mouse
+* UI. warehouse info panel 
+* find th nearest resourced
