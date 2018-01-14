@@ -40,6 +40,9 @@ namespace FSM
 					var resourceProvider = nearestResource.GetComponent<ResourceProvider> ();
 					resourceGatherer.currentResourceType = resourceProvider.resourceType;
 					resourceGatherer.TargetResource = nearestResource;
+
+					Debug.Log ("++++ selected resource " + resourceGatherer.TargetResource.ToString() + "and type " + resourceGatherer.currentResourceType.ToString());
+
 				} else {
 					machine.ChangeState (IdleState.Instance);
 				}
@@ -77,6 +80,8 @@ namespace FSM
 					if (targetContainer.Count(resourceGatherer.currentResourceType) == 0) {
 						Object.Destroy (resourceGatherer.TargetResource);
 						resourceGatherer.TargetResource = null;
+						resourceGatherer.ResourceBuffer = 0;
+						machine.ChangeState (HaulToWarehouseState.Instance);
 					}
 
 					if (agentContainer.Count (resourceGatherer.currentResourceType) >= agentContainer.maxCapacity) {

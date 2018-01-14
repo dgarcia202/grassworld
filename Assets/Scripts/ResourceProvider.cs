@@ -11,14 +11,21 @@ public class ResourceProvider : MonoBehaviour {
 
 	public ResourceType resourceType;
 
-	// Use this for initialization
+	public int minInitialStock = 0;
+
+	public int maxInitialStock = 50;
+
 	void Start () {
 		this.container = this.GetComponent<ResourceContainer> ();
-		var random = Random.Range (1, 7);
-		container.Add (ResourceType.Wood, 30 + (random * 10));
+
+		var initialStock = this.minInitialStock;
+		if (this.minInitialStock != this.maxInitialStock) {
+			initialStock = this.minInitialStock + Random.Range (0, this.maxInitialStock - this.minInitialStock);
+		}
+			
+		container.Add (this.resourceType, initialStock);
 	}
 	
-	// Update is called once per frame
 	void Update () {
 	}
 }
