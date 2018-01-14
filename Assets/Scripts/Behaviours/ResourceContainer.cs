@@ -48,5 +48,17 @@ namespace Behaviours {
 
 			return 0;
 		}
+
+		public Dictionary<ResourceType, int> NonEmptyResourceTypes {
+			get {
+				var result = new Dictionary<ResourceType, int> ();
+				foreach (var res in this.resources) {
+					if (res.Value != 0) {
+						result.Add (res.Key, res.Value);
+					}
+				}
+				return result;
+			}
+		}
 	}
 }
