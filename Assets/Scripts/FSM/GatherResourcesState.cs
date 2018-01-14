@@ -34,14 +34,18 @@ namespace FSM
 			}
 
 			var resourceGatherer = gameObject.GetComponent<ResourceGatherer> ();
-			var nearestResource = gameObject.transform.position.FindNearest(GameObject.FindGameObjectsWithTag("Resource"));
-
-			if (nearestResource != null) {
-				agent.SetDestination (nearestResource.transform.position); 
-				resourceGatherer.TargetResource = nearestResource;
-			} else {
-				machine.ChangeState (IdleState.Instance);
+			if (resourceGatherer.TargetResource == null) {
+				var nearestResource = gameObject.transform.position.FindNearest (GameObject.FindGameObjectsWithTag ("Resource"));
+				if (nearestResource != null) {
+					Debug.Log ("<<< selected target is " + nearestResource.ToString());
+					resourceGatherer.TargetResource = nearestResource;
+				} else {
+					machine.ChangeState (IdleState.Instance);
+				}
 			}
+
+			var rallyPoint = this.GetNearestRallyPoint (resourceGatherer.TargetResource);
+			agent.SetDestination (rallyPoint.position); 
 		}
 
 		public override void OnUpdate (StateMachine machine, GameObject gameObject) {
@@ -59,6 +63,8 @@ namespace FSM
 
 				if (agentContainer == null || targetContainer == null) {
 					machine.ChangeState (GoHomeState.Instance);
+					Debug.Log ("current target is " + (targetContainer == null ? "" : "not") + " null ");
+					Debug.Log (">> goiung hme!!");
 					return;
 				}
 
@@ -67,18 +73,29 @@ namespace FSM
 				if (resourceGatherer.ResourceBuffer >= 1.0f) {
 					var integerAmount = Mathf.FloorToInt (resourceGatherer.ResourceBuffer);
 					resourceGatherer.ResourceBuffer -= Mathf.Floor (resourceGatherer.ResourceBuffer);
-					Transaction.Perform (targetContainer, agentContainer, Resource.Wood, integerAmount);
+					Transaction.Perform (targetContainer, agentContainer, ResourceType.Wood, integerAmount);
 
-					if (targetContainer.Count(Resource.Wood) == 0) {
+					if (targetContainer.Count(ResourceType.Wood) == 0) {
 						Object.Destroy (resourceGatherer.TargetResource);
+						resourceGatherer.TargetResource = null;
 					}
 
-					if (agentContainer.Count (Resource.Wood) >= agentContainer.maxCapacity) {
+					if (agentContainer.Count (ResourceType.Wood) >= agentContainer.maxCapacity) {
 						resourceGatherer.ResourceBuffer = 0;
 						machine.ChangeState (HaulToWarehouseState.Instance);
 					}
 				}
 			}
+		}
+
+		private Transform GetNearestRallyPoint(GameObject obj) {
+
+			return obj.transform.FindChild ("RallyPoint");
+			/*foreach (Transform child in obj.transform) {
+				if (child.name == "RallyPoint") {
+					return child;
+				}
+			}*/
 		}
 	}
 }

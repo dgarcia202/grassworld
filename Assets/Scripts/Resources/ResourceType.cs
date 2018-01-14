@@ -2,7 +2,7 @@
 
 namespace Resources
 {
-	public enum Resource
+	public enum ResourceType
 	{
 		Wood, Food, Stone
 	}

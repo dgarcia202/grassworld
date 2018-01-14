@@ -17,6 +17,6 @@ public class StorageProvider : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		this.debugText.text = "waregouse: " + this.container.Count (Resource.Wood);
+		this.debugText.text = "waregouse: " + this.container.Count (ResourceType.Wood);
 	}
 }

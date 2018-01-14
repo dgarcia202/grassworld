@@ -69,6 +69,6 @@ public class ResourceGatherer : MonoBehaviour {
 
 	void Update () {
 		machine.OnUpdate ();
-		debugText.text = "agent: " + this.container.Count(Resource.Wood);
+		debugText.text = "agent: " + this.container.Count(ResourceType.Wood);
 	}
 }

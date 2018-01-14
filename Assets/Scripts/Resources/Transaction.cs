@@ -5,7 +5,7 @@ namespace Resources
 {
 	public class Transaction
 	{
-		public static int Perform(ResourceContainer origin, ResourceContainer destination, Resource resource, int amount) {
+		public static int Perform(ResourceContainer origin, ResourceContainer destination, ResourceType resource, int amount) {
 			if (origin.Count (resource) < amount) {
 				var availableAmount = origin.Count (resource);
 				origin.Take (resource, availableAmount);

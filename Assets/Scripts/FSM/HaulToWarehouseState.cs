@@ -31,10 +31,10 @@ namespace FSM {
 
 			var resourceGatherer = gameObject.GetComponent<ResourceGatherer> ();
 
+			 
 			var possibleTargets = GameObject.FindGameObjectsWithTag ("Warehouse");
 			if (possibleTargets.Length > 0) {
 				agent.SetDestination (possibleTargets [0].transform.position); 
-				resourceGatherer.TargetResource = possibleTargets [0];
 				resourceGatherer.LastDiscoveredWarehouse = possibleTargets [0].transform.parent.gameObject;
 			}
 		}
@@ -55,6 +55,7 @@ namespace FSM {
 
 				if (agentContainer == null || targetContainer == null) {
 					machine.ChangeState (GoHomeState.Instance);
+					return;
 				}
 
 				resourceGatherer.ResourceBuffer += resourceGatherer.unloadSpeed * Time.deltaTime;
@@ -62,10 +63,10 @@ namespace FSM {
 				if (resourceGatherer.ResourceBuffer >= 1.0) {
 					var integerAmount = Mathf.FloorToInt (resourceGatherer.ResourceBuffer);
 					resourceGatherer.ResourceBuffer -= Mathf.Floor (resourceGatherer.ResourceBuffer);
-					Transaction.Perform (agentContainer, targetContainer, Resource.Wood, integerAmount);
+					Transaction.Perform (agentContainer, targetContainer, ResourceType.Wood, integerAmount);
 				}
 
-				if (agentContainer.Count (Resource.Wood) == 0) {
+				if (agentContainer.Count (ResourceType.Wood) == 0) {
 					machine.ChangeState (GatherResourcesState.Instance);
 				}
 			}

@@ -9,7 +9,7 @@ namespace Behaviours {
 	
 		public int maxCapacity = 1000;
 	
-		public Dictionary<Resource, int> resources = new Dictionary<Resource, int>();
+		public Dictionary<ResourceType, int> resources = new Dictionary<ResourceType, int>();
 
 		void Start () {
 		}
@@ -17,7 +17,7 @@ namespace Behaviours {
 		void Update () {
 		}
 
-		public int Count(Resource resource) {
+		public int Count(ResourceType resource) {
 			if (this.resources.ContainsKey (resource)) {
 				return this.resources [resource]; 
 			}
@@ -25,7 +25,7 @@ namespace Behaviours {
 			return 0;
 		}
 
-		public void Add(Resource resource, int amount) {
+		public void Add(ResourceType resource, int amount) {
 			if (this.resources.ContainsKey (resource)) {
 				this.resources [resource] += amount;
 				return;
@@ -34,7 +34,7 @@ namespace Behaviours {
 			this.resources.Add(resource, amount);
 		}
 
-		public int Take(Resource resource, int amount) {
+		public int Take(ResourceType resource, int amount) {
 			if (this.resources.ContainsKey (resource)) {
 				if (this.resources [resource] >= amount) {
 					this.resources [resource] -= amount;
