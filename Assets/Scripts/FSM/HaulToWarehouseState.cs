@@ -63,10 +63,10 @@ namespace FSM {
 				if (resourceGatherer.ResourceBuffer >= 1.0) {
 					var integerAmount = Mathf.FloorToInt (resourceGatherer.ResourceBuffer);
 					resourceGatherer.ResourceBuffer -= Mathf.Floor (resourceGatherer.ResourceBuffer);
-					Transaction.Perform (agentContainer, targetContainer, ResourceType.Wood, integerAmount);
+					Transaction.Perform (agentContainer, targetContainer, resourceGatherer.currentResourceType, integerAmount);
 				}
 
-				if (agentContainer.Count (ResourceType.Wood) == 0) {
+				if (agentContainer.Count (resourceGatherer.currentResourceType) == 0) {
 					machine.ChangeState (GatherResourcesState.Instance);
 				}
 			}

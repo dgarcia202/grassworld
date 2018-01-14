@@ -31,6 +31,8 @@ public class ResourceGatherer : MonoBehaviour {
 
 	public float reachDistance = 2.0f;
 
+	public ResourceType currentResourceType = ResourceType.Wood;
+
 	public Text debugText;
 
 	public GameObject TargetResource {
